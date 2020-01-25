@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Login</title>
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"></link>
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-win8.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+
+        <style>
+            body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+            body {font-size:16px; background-color: #ffffff;}
+            .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+            .w3-half img:hover{opacity:1}
+            .value {width: 1000px;}
+        </style>
+    </h:head>
+    <h:body style="background: url(https://images.wallpaperscraft.com/image/eruption_lava_volcano_oriental_cherry_tree_45542_1280x720.jpg) no-repeat center center fixed ;background-size: cover;
+            -moz-background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover" >
+
+
+        <!-- Navigation Bar -->
+        <div class="w3-bar w3-white w3-border-bottom w3-xlarge">
+            <a href="index.xhtml" class="w3-bar-item w3-button w3-text-indigo w3-hover-indigo"><b><i class="fa fa-user-md w3-margin-right"></i>Ortopedia Velasquez</b></a>
+        </div>
+
+        <!-- Header -->
+        <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px; margin-top: 25%">
+            <div class="w3-display-middle" style="width:65%">
+                <div class="w3-bar w3-black">
+                    <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'Flight');"><i class="fa fa-user w3-margin-right"></i>Iniciar Sesion</button>
+                    <button class="w3-bar-item w3-button tablink" onclick="openLink(event, 'Hotel');"><i class="fa fa-user-plus w3-margin-right"></i>Registrarse</button>
+                </div>
+
+                <!-- Tabs -->
+                <div id="Flight" class="w3-container w3-black w3-padding-16 myLink w3-opacity">
+                    <h3>Iniciar Sesion</h3>
+                    <h:form>
+                        <div class="w3-row-padding" style="margin:0 -16px;">
+                            <div class="w3-half">
+                                <h:outputLabel value="Email" />
+                                <h:inputText a:placeholder="Ingrese su Email" class="w3-input w3-border" required="true" value="#{usuarioBean.email}"/>
+                            </div>
+                            <div class="w3-half">
+                                <h:outputLabel value="Password"/>
+                                <h:inputSecret a:placeholder="Ingrese su password" class="w3-input w3-border" required="true" value="#{usuarioBean.contrasenia}"/>
+                            </div>
+                        </div>
+                        <p><h:commandButton value="Ingresar" action="#{usuarioBean.autenticar()}" styleClass="w3-button w3-dark-grey"></h:commandButton></p>
+                    </h:form>
+                </div>
+
+
+            </div>
+        </header>
+
+        <script type="text/javascript">
+            // Tabs
+            function openLink(evt, linkName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("myLink");
+            for (i = 0; i &lt; x.length; i++) {
+            x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i &lt; x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-indigo", "");
+            }
+            document.getElementById(linkName).style.display = "block";
+            evt.currentTarget.className += " w3-indigo";
+            }
+
+            // Click on the first tablink on load
+            document.getElementsByClassName("tablink")[0].click();
+            document.getElementById("miForm").reset();
+
+        </script>
+
+        <c:if test="#{not empty flash.exito}">
+            alertify.success('#(flash.exito)');
+        </c:if>
+
+    </h:body>
+</html>
+

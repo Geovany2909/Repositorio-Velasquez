@@ -1,0 +1,118 @@
+DROP SCHEMA IF EXISTS velasquez;
+CREATE DATABASE velasquez;
+USE velasquez;
+
+CREATE TABLE TipoUsuario
+(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    tipoUsuario varchar(20)
+);
+
+
+insert into TipoUsuario
+VALUES (null,"Administrador"),(null,"Ortopeda"),(null,"Paciente");
+
+create table estado(
+	id int PRIMARY KEY AUTO_INCREMENT,
+    	estado varchar(50)
+);
+
+
+insert into estado VALUES(null, "En espera"),(null,"Aprobado"),(null,"Finalizado"),(null,"Rechazado"),(null, "Horario Disponible"),(null, "Horario ocupado"), 
+(null, Horario Inactivo);
+
+CREATE TABLE usuario
+(
+    	id int primary key AUTO_INCREMENT,
+	nombres varchar(50) not null,
+	apellidos varchar(50) not null,
+	email varchar(50) unique not null,
+	tipoUsuario int, foreign key(tipoUsuario) references TipoUsuario(id),
+	contrasenia varchar(30) not null,
+	sexo char(1) not null check(sexo = 'M' OR sexo = 'F' OR sexo = 'O'),
+    	fechaNacimiento date,
+	alergias varchar(500) null,
+	especialidad varchar(500) null,
+	experiencia varchar(500) null,
+   	foto longblob
+);
+
+
+CREATE TABLE Dias(
+	Id INT PRIMARY KEY AUTO_INCREMENT,
+	dia VARCHAR(35)
+);
+
+
+INSERT INTO Dias VALUES (null,'Lunes'),
+						(null,'Martes'),
+						(null,'Miercoles'),
+						(null,'Jueves'),
+					        (null,'Viernes'),
+						(null,'Sabado'),
+						(null,'Domingo');
+
+CREATE TABLE HorarioCita(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	dia INT,
+	ortopeda INT,
+	horaInicio VARCHAR(8),
+	horaFinal VARCHAR(8),
+	estadoH int, foreign key (estadoH) references estado(id),
+	FOREIGN KEY (dia) REFERENCES Dias(Id),
+	FOREIGN KEY (ortopeda) REFERENCES usuario(id)
+);
+
+create table diasHabiles(
+    id int PRIMARY KEY AUTO_INCREMENT,
+    dia int, FOREIGN KEY(dia) REFERENCES dias (id),
+    medico int, FOREIGN KEY(medico) REFERENCES usuario(id),
+    horarioEntrada varchar(10),
+    horarioSalida varchar(10)
+);
+
+create TABLE contrato(
+    id int PRIMARY KEY AUTO_INCREMENT,
+    medico int, FOREIGN KEY (medico) REFERENCES usuario(id),
+    fechaInicio date,
+    fechaFin date
+);
+
+create table categoria(
+	id int auto_increment primary key,
+    tipo varchar(20),
+    descripcion varchar(200)
+);
+
+INSERT INTO categoria VALUES(null, "Ortesis", "Productos que pertenecen a las Ortesis");
+INSERT INTO categoria VALUES(null, "Protesis", "Productos que pertenecen a las protesis");
+
+
+create table producto(
+	id int auto_increment primary key,
+    titulo varchar(30),
+    descripcion varchar(100),
+    categoria int, FOREIGN KEY (categoria) REFERENCES categoria(id),
+    precio float,
+    imagen longblob
+);
+
+create table cita(
+	id int primary key AUTO_INCREMENT,
+	fecha date,
+	idPaciente int not null, foreign key(idPaciente) references usuario(id),
+    	idHorario INT, FOREIGN KEY(idHorario) REFERENCES HorarioCita(id),
+    	estado int, FOREIGN KEY(estado) REFERENCES estado(id),
+    	producto int, FOREIGN key(producto) REFERENCES producto(id),
+    	observaciones varchar(500) null
+);
+
+DELIMITER $$
+CREATE TRIGGER UpdateEstadoHorarioC
+AFTER INSERT ON cita
+FOR EACH ROW
+BEGIN
+    UPDATE horariocita
+    SET estadoH = 6
+    WHERE id = NEW.idHorario;
+END$$

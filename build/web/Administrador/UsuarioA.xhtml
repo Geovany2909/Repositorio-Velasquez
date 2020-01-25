@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+
+        <div class="w3-main" style="margin-left:250px;margin-right:40px">
+            <header class="w3-container w3-xlarge w3-padding">
+                <h4 class="w3-left">Sistema de citas medicas</h4>
+                <h:form>
+                    <p class="w3-right">
+                        <h:commandLink action="#{usuarioBean.cerrarSesion()}"><i class="fa fa-sign-out w3-margin-right" title="Cerrar Sesion"></i></h:commandLink>
+                    </p>
+                </h:form>
+            </header>
+
+            <div class="w3-container">
+                <h1 class="w3-xxxlarge w3-text-teal"><b>Usuarios.</b></h1>
+            </div>
+
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-animate-zoom">
+                    <div class="w3-container">
+                        <span onclick="document.getElementById('id01').style.display = 'none'"
+                              class="w3-button w3-display-topright">&times;</span>
+                        <h2>Registro de Usuarios</h2> 
+                        <h:form id="miFormulario" class="w3-margin-bottom"  enctype="multipart/form-data">
+
+                            <h:inputHidden id="id" value="#{usuarioBean.usuario.id}" required="false" requiredMessage="Ingrese el id..." />
+
+                            <div class="w3-section">
+                                <h:outputLabel for="nombre" value="Nombre:"/>
+                                <h:inputText id="nombre" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.nombres}" required="true" requiredMessage="Ingrese el nombre..." />
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputLabel for="apellido" value="Apellido:"/>
+                                <h:inputText id="apellido" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.apellidos}" required="true" requiredMessage="Ingrese el apellido..." />
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputLabel for="email" value="Email:"/>
+                                <h:inputText id="email" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.email}" required="true" requiredMessage="Ingrese el email..." />
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputLabel for="est" value="Tipo de Usuario"/>
+                                <h:selectOneMenu styleClass="w3-input w3-border" value="#{usuarioBean.usuario.tipoUsuario.id}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opción..." />
+                                    <f:selectItems value="#{tipoUsuarioBean.listaTipoUsuarios}" var="e" itemLabel="#{e.tipoUsuario}"  itemValue="#{e.id}" />
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="w3-section">
+                                <h:outputLabel for="dni" value="DNI:"/>
+                                <h:inputText id="dni" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.dni}" required="true" requiredMessage="Ingrese el email..." />
+                            </div>
+
+                            <!-- Generos -->
+                            <div class="w3-section">
+                                <h:outputLabel for="genero" value="Genero:"/>
+                                <p:selectOneButton styleClass="w3-input w3-border" value="#{usuarioBean.usuario.sexo}">
+                                    <f:selectItem itemLabel="Masculino" itemValue="M" />
+                                    <f:selectItem itemLabel="Femenino" itemValue="F" />
+                                    <f:selectItem itemLabel="Otros" itemValue="O" />
+                                </p:selectOneButton>
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputLabel for="fecha" value="FechaNacimiento: "/>
+                                <p:datePicker id="fecha"  value="#{usuarioBean.usuario.fechaNacimiento}" locale="es" showIcon="true"/>
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputLabel for="edad" value="Edad:"/>
+                                <h:inputText id="edad" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.edad}" required="false" />
+                            </div>
+                            <div class="w3-section">
+                                <h:outputLabel for="telefono" value="Telefono"/>
+                                <h:inputText id="tele" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.telefono}" required="false" />
+                            </div>
+                            <div class="w3-section">
+                                <h:outputLabel for="EstadoCi" value="Estado Civil:"/>
+                                <h:inputText id="estadoCivil" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.estadoCivil}" required="false" />
+                            </div>
+                            <div class="w3-section">
+                                <h:outputLabel for="domicilio" value="Direccion de vivienda:"/>
+                                <h:inputText id="domi" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.domicilio}" required="false" />
+                            </div>
+                            <div class="w3-section">
+                                <h:outputLabel for="alerguas" value="Alergias:"/>
+                                <h:inputText id="ale" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.alergias}" required="false" />
+                            </div>
+
+                            <!-- Generos -->
+                            <div class="w3-section">
+                                <h:outputLabel for="genero" value="Especialidad"/>
+                                <p:selectOneButton styleClass="w3-input w3-border" value="#{usuarioBean.usuario.especialidad}">
+                                    <f:selectItem itemLabel="Ortesis General" itemValue="Ortesis General" />
+                                    <f:selectItem itemLabel="Ortesis Especial" itemValue="Ortesis especial" />
+                                    <f:selectItem itemLabel="Protesis Superior" itemValue="Protesis Superior" />
+                                    <f:selectItem itemLabel="Protesis Inferior" itemValue="Protesis Inferior" />
+                                </p:selectOneButton>
+                            </div>
+                            <div class="w3-section">
+                                <h:outputLabel for="expe" value="Experiencia"/>
+                                <h:inputText id="exoe" styleClass="w3-input w3-border" value="#{usuarioBean.usuario.experiencia}" required="false" requiredMessage="Ingrese la password..." />
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputText value="Contrasenia" />
+                                <p:password id="inlineFeedback" value="#{usuarioBean.usuario.contrasenia}" feedback="true" placeholder="Ingrese la password" />
+                            </div>
+                           
+                            <div class="w3-section">
+                                <p:outputLabel for="imagen" value="Foto:"/>
+                               
+                                <h:inputFile id="imagen" styleClass="form-control" value="#{usuarioBean.fileUpload}"></h:inputFile>
+                            </div>
+
+                            <h:commandButton value="Guardar" styleClass="w3-button w3-green" action="#{usuarioBean.addUsuario()}"  style="margin-right: 10px">
+                                <f:ajax execute="@form" render=":miFormulario"/>
+                            </h:commandButton>
+                            <h:commandButton value="Modificar" styleClass="w3-button w3-cyan w3-text-white" action="#{usuarioBean.updateUsuarios()}" style="margin-right: 10px" />
+                            <h:commandButton type="reset" value="Limpiar" styleClass="w3-button w3-red" />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+
+            <h:form class="w3-margin-bottom">
+                <div class="w3-half">
+                    <h:inputText class="w3-input w3-border"></h:inputText> 
+                </div>
+                <div class="w3-half">
+                    <h:commandLink class="w3-button w3-black fa fa-search w3-large w3-margin-left"></h:commandLink>
+                    <p:commandButton onclick="modal()" class="w3-button w3-teal w3-margin-left" value="ingresar"></p:commandButton>
+                </div>
+            </h:form>
+            <br/>
+
+            <h:form class="w3-margin-top">
+                <div class="w3-responsive">
+                    <h:dataTable styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" value="#{usuarioBean.listaUsuarios}"
+                                 var="usu" rendered="#{usuarioBean.listaUsuarios.size()>0}">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.nombres}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Apellidos"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.apellidos}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.email}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Rubro"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.tipoUsuario.tipoUsuario}"/> 
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="DNI"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.dni}"/> 
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Edad"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.edad}"/> 
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Telefono"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.telefono}"/> 
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Estado Civil"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.estadoCivil}"/> 
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Domicilio"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.domicilio}"/> 
+                        </h:column>
+
+
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Password"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.contrasenia}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Genero:"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.sexo}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Nacimiento"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.fechaNacimiento}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Alergias"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.alergias}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Especialidad"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.especialidad}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Experiencia"/>
+                            </f:facet>
+                            <h:outputText value="#{usu.experiencia}"/> 
+                        </h:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <p:outputLabel value="Foto"/>
+                            </f:facet>
+                            <img src="data:image/png;base64,#{usuarioBean.displayImagen(usu.foto)}" width="150" height="130"/>
+                        </p:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Operaciones"/>
+                            </f:facet>
+                            <h:commandLink onclick="modal()" styleClass="fa fa-edit w3-button w3-gray w3-hover-black">
+                                <f:ajax event="click" listener="#{usuarioBean.findUsuariosById(usu.id)}" render=":miFormulario"/>
+                            </h:commandLink>
+
+                            <h:commandLink styleClass="w3-right fa fa-trash w3-button w3-red w3-hover-black" action="#{usuarioBean.deleteUsuarios()}" 
+                                           onclick="return confirmarEliminacion();"> 
+                                <f:param name="id" value="#{usu.id}" />
+                            </h:commandLink>  
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </h:form>
+            <br/><br/><br/><br/><br/><br/><br/><br/>
+        </div>
+
+        <h:outputScript>
+            <c:if test = "#{not empty flash.exito}" >
+                alertify.success('#{flash.exito}');
+            </c:if>
+
+            function modal(){
+            document.getElementById('id01').style.display = 'block';
+            }
+
+            function confirmarEliminacion(){
+            return confirm("¿Está seguro que desea eliminar la editorial?");
+            }
+        </h:outputScript> 
+
+    </ui:define>
+</ui:composition>
+

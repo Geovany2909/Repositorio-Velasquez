@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"></link>
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-win8.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/alertify.min.css"/>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/themes/default.min.css"/>
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/alertify.min.js"></script>
+        <title></title>
+        <style>
+            body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+            body {font-size:16px; background-color: #ffffff;}
+            .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+            .w3-half img:hover{opacity:1}
+            .value {width: 1000px;}
+
+            .container::-webkit-scrollbar {
+                width: 8px;     /* Tamaño del scroll en vertical */
+                height: 8px;    /* Tamaño del scroll en horizontal */
+                display: none;  /* Ocultar scroll */
+            }
+        </style>
+    </h:head>
+
+    <h:body styleClass="w3-light-grey">
+
+        <div id="top">
+            <!-- Navbar (sit on top) -->
+            <div class="w3-top">
+                <div class="w3-bar w3-white w3-card" id="myNavbar">
+                    <a href="index.xhtml" class="w3-bar-item w3-button w3-text-indigo w3-hover-indigo"><b><i class="fa fa-user-md w3-margin-right"></i>Ortopedia Velasquez</b></a>
+                    <!-- Right-sided navbar links -->
+                    <h:form>
+                        <div class="w3-right w3-hide-small">
+                            <a href="CitasM.xhtml" class="w3-bar-item w3-button"><i class="fa fa fa-calendar"></i> CITAS</a>
+                            <a href="ContratoM.xhtml" class="w3-bar-item w3-button"><i class="fa fa-th"></i> CONTRATO</a>
+                            <a href="DiasHabilesM.xhtml" class="w3-bar-item w3-button"><i class="fa fa-calendar-check-o"></i> DIAS DE TRABAJO</a>
+                            <h:commandLink action="#{usuarioBean.cerrarSesion()}" styleClass="fa fa-sign-out w3-bar-item w3-button"></h:commandLink>
+                        </div>
+                    </h:form>
+                    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+                    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar on small screens when clicking the menu icon -->
+            <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+                <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+                <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+                <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">TEAM</a>
+                <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">WORK</a>
+                <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">PRICING</a>
+                <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">CONTACT</a>
+            </nav>
+            <ui:insert name="top">Top</ui:insert>
+        </div>
+        <div>
+            <div id="content" class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom">
+                <div class="w3-black w3-bottom w3-topbar w3-border-teal">
+                    <p class="w3-wide w3-text-white w3-padding">Ortopedia footer</p>
+                </div>
+            </ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

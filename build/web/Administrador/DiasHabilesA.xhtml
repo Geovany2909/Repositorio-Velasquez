@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="w3-main" style="margin-left:250px;margin-right:40px">
+            <header class="w3-container w3-xlarge w3-padding">
+                <h4 class="w3-left">Sistema de citas medicas</h4>
+                <h:form>
+                    <p class="w3-right">
+                        <h:commandLink action="#{usuarioBean.cerrarSesion()}"><i class="fa fa-sign-out w3-margin-right" title="Cerrar Sesion"></i></h:commandLink>
+                    </p>
+                </h:form>
+            </header>
+
+            <div class="w3-container">
+                <h1 class="w3-xxxlarge w3-text-teal"><b>Registro de dias Habiles para medicos</b></h1>
+            </div>
+
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-animate-zoom">
+                    <div class="w3-container">
+                        <span onclick="document.getElementById('id01').style.display = 'none'"
+                              class="w3-button w3-display-topright">&times;</span>
+                        <h2>Registro de dias Habiles para medicos</h2>
+                        <h:form id="miFormulario" class="w3-margin-bottom">
+                            <h:panelGroup layout="block" styleClass="w3-panel w3-red" rendered="#{not empty facesContext.messageList}">   
+                                <h:messages/>
+                            </h:panelGroup>
+
+                            <h:inputHidden id="id"  value="#{diasHabilesBean.diasHa.id}"  />
+
+                            <div class="w3-section">
+                                <h:outputLabel for="est" value="Dias:"/>
+                                <h:selectOneMenu styleClass="w3-input w3-border" value="#{diasHabilesBean.diasHa.dia.id}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opción..." />
+                                    <f:selectItems value="#{diasBean.listaDias}" var="da" itemLabel="#{da.dia}"  itemValue="#{da.id}" />
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputLabel for="ss" value="Medico:"/>
+                                <h:selectOneMenu styleClass="w3-input w3-border" value="#{diasHabilesBean.diasHa.medico.id}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opción..." />
+                                    <f:selectItems value="#{usuarioBean.listamedicos}" var="q" itemLabel="#{q.nombres} &nbsp; #{q.apellidos}"  itemValue="#{q.id}" />
+                                </h:selectOneMenu>
+                            </div>
+
+                            <div class="w3-section">
+                                <h:outputLabel for="fecha" value="Hora Entrada"/>
+                                <p:inputText type="time" styleClass="w3-input w3-border" id="horaI"  value="#{diasHabilesBean.diasHa.horarioEntrada}"/>
+                            </div>
+                            
+
+                            <div class="w3-section">
+                                <h:outputLabel for="fechaa " value="Hora Salida"/>
+                                <p:inputText type="time" styleClass="w3-input w3-border" id="horaF"  value="#{diasHabilesBean.diasHa.horarioSalida}"/>
+                            </div>
+
+                            <h:commandButton value="Guardar" styleClass="w3-button w3-green" action="#{diasHabilesBean.addDiasHabiles()}" style="margin-right: 10px" />
+                            <h:commandButton value="Modificar" styleClass="w3-button w3-cyan w3-text-white" action="#{diasHabilesBean.updateDiasHabiles()}" style="margin-right: 10px" />
+                            <h:commandButton type="reset" value="Limpiar" styleClass="w3-button w3-red" />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+            <h:form class="w3-margin-bottom">
+                <div class="w3-half">
+                    <h:inputText class="w3-input w3-border"></h:inputText> 
+                </div>
+                <div class="w3-half">
+                    <p:commandButton onclick="modal()" class="w3-button w3-teal w3-margin-left" value="Agregar Nuevo Horario"></p:commandButton>
+                </div>
+            </h:form>
+            <br/>
+            <h:form class="w3-margin-top">
+                <h:dataTable styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" value="#{diasHabilesBean.listDiasHabiles}" 
+                             var="d" rendered="#{diasHabilesBean.listDiasHabiles.size()>0}">
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="Dia de trabajo"/>
+                        </f:facet>
+                        <h:outputText value="#{d.dia.dia}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="Medico:"/>
+                        </f:facet>
+                        <h:outputText value="#{d.medico.nombres} &nbsp; #{d.medico.apellidos}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="Horarios de Trabajo"/>
+                        </f:facet>
+                        <h:outputText value="#{d.horarioEntrada}"/>&nbsp;<h:outputText value="#{d.horarioSalida}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="Operaciones"/>
+                        </f:facet>
+                        <h:commandLink onclick="modal()" styleClass="fa fa-edit w3-button w3-gray w3-hover-black">
+                            <f:ajax event="click" listener="#{diasHabilesBean.findDiasHabilesById(d.id)}" render=":miFormulario" />
+                        </h:commandLink> 
+
+
+                        <h:commandLink styleClass="w3-margin-right fa fa-trash w3-button w3-red w3-hover-black" action="#{diasHabilesBean.deleteDiasHabiles()}" 
+                                       onclick="return confirmarEliminacion();"> 
+                            <f:param name="id" value="#{d.id}" />
+                        </h:commandLink>  
+                    </h:column>
+
+                </h:dataTable>
+            </h:form>
+            <br/><br/><br/><br/><br/><br/>
+        </div>
+
+        <h:outputScript>
+            <c:if test = "#{not empty flash.exito}" >
+                alertify.success('#{flash.exito}');
+            </c:if>
+
+            function modal(){
+            document.getElementById('id01').style.display = 'block';
+            }
+
+            function confirmarEliminacion(){
+            return confirm("¿Está seguro que desea eliminar la editorial?");
+            }
+        </h:outputScript> 
+
+    </ui:define>
+</ui:composition>

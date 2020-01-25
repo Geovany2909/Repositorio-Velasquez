@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./PlantillaM.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="w3-container" style="padding:128px 16px" id="about">
+            <h2 class="w3-center w3-wide">Citas correspondientes</h2>
+            
+            
+            
+           <!----> <div class="w3-row-padding w3-center" style="margin-top:64px">
+                <h:form class="w3-margin-top">
+                    <h:dataTable styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" value="#{citaBean.obtenerCitaMedicas()}" 
+                                 var="m">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Paciente"/>
+                            </f:facet>
+                            <h:outputText value="#{m.idPaciente.nombres}"/>&nbsp;<h:outputText value="#{m.idPaciente.apellidos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Hora de la Cita"/>
+                            </f:facet>
+                            <h:outputText value="#{m.idHorario.horaInicio}"/>&nbsp;<h:outputText value="#{m.idHorario.horaFinal}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Observaciones"/>
+                            </f:facet>
+                            &nbsp;<h:outputText value="#{m.observaciones}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Fecha Citas:"/>
+                            </f:facet>
+                            &nbsp;<h:outputText value="#{m.fecha}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Medico"/>
+                            </f:facet>
+                            &nbsp;<h:outputText value="#{m.idMedico.nombres}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+        </div>
+
+        <h:outputScript>
+            <c:if test = "#{not empty flash.exito}" >
+                alertify.success('#{flash.exito}');
+            </c:if>
+
+            function modal(){
+            document.getElementById('id01').style.display = 'block';
+            }
+
+            function confirmarEliminacion(){
+            return confirm("¿Está seguro que desea eliminar la editorial?");
+            }
+        </h:outputScript> 
+
+    </ui:define>
+</ui:composition>

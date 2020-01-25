@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <div class="w3-container" style="padding:68px 16px" id="about">
+            <h2 class="w3-center w3-wide">Dias en los que trabaja</h2>
+            <div class="w3-row-padding w3-center" style="margin-top:64px">
+                <h:form class="w3-margin-top">
+                    <h:dataTable styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" value="#{diasHabilesBean.obtenerDiasHByMedico()}" 
+                                 var="d">
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Dias de trabajo"/>
+                            </f:facet>
+                            <h:outputText value="#{d.dia.dia}"/>
+                        </h:column>
+                        
+                         <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Medico:"/>
+                            </f:facet>
+                             <h:outputText value="#{d.medico.nombres}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Horarios de Trabajo"/>
+                            </f:facet>
+                            <h:outputText value="#{d.horarioEntrada}"/>&nbsp;<h:outputText value="#{d.horarioSalida}"/>
+                        </h:column>
+                        
+
+                    </h:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

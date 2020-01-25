@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="content">
+        <div class="w3-main" style="margin-left:250px;margin-right:80px">
+            <header class="w3-container w3-xlarge w3-padding">
+                <h4 class="w3-left">Sistema de citas medicas</h4>
+                <h:form>
+                    <p class="w3-right">
+                        <h:commandLink action="#{usuarioBean.cerrarSesion()}"><i class="fa fa-sign-out w3-margin-right" title="Cerrar Sesion"></i></h:commandLink>
+                    </p>
+                </h:form>
+            </header>
+
+            <div class="w3-container">
+                <h1 class="w3-xxxlarge w3-text-teal"><b>Citas Correspondientes</b></h1>
+            </div>
+
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-animate-zoom">
+                    <div class="w3-container">
+                        <span onclick="document.getElementById('id01').style.display = 'none'"
+                              class="w3-button w3-display-topright">&times;</span>
+                        <h2>Dar por finalizada la cita</h2>
+                        <h:form id="miFormulario" class="w3-margin-bottom">
+                            <h:panelGroup layout="block" styleClass="w3-panel w3-red" rendered="#{not empty facesContext.messageList}">   
+                                <h:messages/>
+                            </h:panelGroup>
+
+                           <h:inputHidden  value="#{citaBean.cita.id}"/>
+
+                           <div class="w3-section" style="display: none;">
+                                <p:outputLabel for="multi" value="Fecha: " />
+                                <p:calendar id="multi" value="#{citaBean.cita.fecha}" pages="2" />
+                            </div>
+
+
+                            <!-- Paciente -->
+                            <div class="w3-section" style="display: none;">
+                                <h:outputLabel for="paciente" value="Paciente:"/>
+                                <h:selectOneMenu styleClass="w3-input w3-border" value="#{citaBean.cita.idPaciente.id}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opción..." />
+                                    <f:selectItems value="#{usuarioBean.listaPacientes}" var="espe" itemLabel="#{espe.nombres}" itemValue="#{espe.id}" />
+                                </h:selectOneMenu>
+                            </div>
+
+                            <!-- Horario -->
+                            <div class="w3-section" style="display: none;">
+                                <h:outputLabel for="est" value="Horarios y Medico Disponible" style="display: none;"/>
+                                <h:selectOneMenu styleClass="w3-input w3-border" value="#{citaBean.cita.idHorario.id}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opción..." />
+                                    <f:selectItems value="#{horarioCitaBean.LHorariosDisponibles}" var="es" itemLabel="#{es.ortopeda.nombres}&nbsp;#{es.dia.dia}&nbsp;#{es.horaInicio}"  itemValue="#{es.id}" />
+                                </h:selectOneMenu>
+                            </div>
+
+                            <!-- Estado -->
+                            <div class="w3-section">
+                                <h:outputLabel for="estado"  value="Estado"/>
+                                <h:selectOneMenu styleClass="w3-input w3-border" value="#{citaBean.cita.estado.id}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opción..." />
+                                    <f:selectItems value="#{estadoBean.listaEstadoByFin}" var="est" itemLabel="#{est.estado}"  itemValue="#{est.id}" />
+                                </h:selectOneMenu>
+                            </div>
+
+                            <!-- Producto -->
+                            <div class="w3-section" style="display: none;">
+                                <h:outputLabel for="Producto" value="Producto:"/>
+                                <h:selectOneMenu styleClass="w3-input w3-border" value="#{citaBean.cita.producto.id}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Seleccione una opción..." />
+                                    <f:selectItems value="#{productoBean.listaProductos}" var="p" itemLabel="#{p.titulo} &nbsp;$#{p.precio}"  itemValue="#{p.id}"/>
+                                </h:selectOneMenu>
+                            </div>
+
+                            <!-- comentario -->
+                            <div class="w3-section">
+                                <h:outputLabel for="comen" value="Comentario:"/>
+                                <h:inputTextarea id="cmen" styleClass="w3-input w3-border" value="#{citaBean.cita.observaciones}"  >
+                                </h:inputTextarea>
+                            </div>
+                           
+                           
+                            <h:commandButton value="Modificar" styleClass="w3-button w3-cyan w3-text-white" action="#{citaBean.updateCitas()}"   style="margin-right: 10px" />
+                            <h:commandButton type="reset" value="Limpiar" styleClass="w3-button w3-red" />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
+            <h:form class="w3-margin-bottom">
+                <div class="w3-half">
+                    <h:inputText class="w3-input w3-border"></h:inputText> 
+                </div>
+                <div class="w3-half">
+                    <h:commandLink class="w3-button w3-black fa fa-search w3-large w3-margin-left"></h:commandLink>
+                    <p:commandButton onclick="modal()" style="display: none;" styleClass="w3-button w3-teal w3-margin-left" value="Finalizar la cita"></p:commandButton>
+                </div>
+            </h:form>
+             <h:form class="w3-margin-top">
+                    <h:dataTable styleClass="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white" value="#{citaBean.obtenerCitaMedicas()}" 
+                                 var="m">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Paciente"/>
+                            </f:facet>
+                            <h:outputText value="#{m.idPaciente.nombres}"/>&nbsp;<h:outputText value="#{m.idPaciente.apellidos}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Hora de la Cita"/>
+                            </f:facet>
+                            <h:outputText value="#{m.idHorario.horaInicio}"/>&nbsp;<h:outputText value="#{m.idHorario.horaFinal}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Observaciones"/>
+                            </f:facet>
+                            &nbsp;<h:outputText value="#{m.observaciones}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Fecha de la Cita"/>
+                            </f:facet>
+                            &nbsp;<h:outputText value="#{m.fecha}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputLabel value="Medico"/>
+                            </f:facet>
+                            &nbsp;<h:outputText value="#{m.idHorario.ortopeda.nombres}"/>
+                        </h:column>
+                           <h:column>
+                        <f:facet name="header">
+                            <h:outputLabel value="Finalizar la cita"/>
+                        </f:facet>
+                        <h:commandLink onclick="modal()" styleClass="fa fa-edit w3-button w3-gray w3-hover-black">
+                            <f:ajax event="click" listener="#{citaBean.findCitasById(m.id)}" render=":miFormulario" />
+                        </h:commandLink> 
+
+                    </h:column>
+                    </h:dataTable>
+                </h:form>
+            <br/><br/><br/><br/><br/><br/>
+        </div>
+
+        <h:outputScript>
+            <c:if test = "#{not empty flash.exito}" >
+                alertify.success('#{flash.exito}');
+            </c:if>
+
+            function modal(){
+            document.getElementById('id01').style.display = 'block';
+            }
+
+            function confirmarEliminacion(){
+            return confirm("¿Está seguro que desea eliminar la editorial?");
+            }
+
+        </h:outputScript> 
+
+    </ui:define>
+</ui:composition>

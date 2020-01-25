@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Login</title>
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins"></link>
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-win8.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+
+        <style>
+            body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
+            body {font-size:16px; background-color: #ffffff;}
+            .w3-half img{margin-bottom:-6px;margin-top:16px;opacity:0.8;cursor:pointer}
+            .w3-half img:hover{opacity:1}
+            .value {width: 1000px;}
+        </style>
+    </h:head>
+    <h:body>
+
+
+        <!-- Navigation Bar -->
+        <div class="w3-bar w3-white w3-border-bottom w3-xlarge">
+            <a href="#" class="w3-bar-item w3-button w3-text-indigo w3-hover-indigo"><b><i class="fa fa-user-md w3-margin-right"></i>Ortopedia Velasquez</b></a>
+            <a href="Login.xhtml" class="w3-bar-item w3-button w3-right"><i class="fa fa-sign-in"></i>Iniciar Sesion</a>
+        </div>
+
+        <!-- Header -->
+        <header class="w3-display-container w3-content w3-hide-small" style="max-width:1500px;">
+            <img class="w3-image" src="https://estaticos.qdq.com/swdata/home_photos/015/015888558/b2c41df06cd54cad8cfad224655fdf6f.jpg" alt="Ortopedia" width="1500" height="500"/>
+            <div class="w3-display-left w3-cyan w3-opacity">
+                <div class="w3-text-white" style="width: 50%">
+                    <h2 class="w3-center"><b>Ortopedia Velásquez</b></h2>
+                    <p class="w3-center"><b>Carrer de l'Enginyer José Sirera 2 Avenida Cr Tomás Sala con Calle Soria. 46017 València Valencia</b></p>
+                    <h3 class="w3-center"><b>960 05 57 68</b></h3>
+                </div>
+            </div>
+            <div class="w3-display-right" style="width: 50%">
+                <div>
+                    <a href="#contacto" style="margin-left: 40%" class="w3-button w3-border w3-text-white w3-border-cyan w3-large w3-hover-cyan">Contactanos</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="w3-content" style="max-width:1100px;">
+            <h2>ORTESIS</h2> 
+            <h:form class="w3-margin-top" >
+                <div class="responsive">
+                    <h:dataTable styleClass="w3-table w3-hoverable w3-white" value="#{ortesisBean.listaOrtesis}"
+                                 var="to" rendered="#{ortesisBean.listaOrtesis.size()>0}">
+
+                        <h:column>
+                            <h:outputText value="#{to.nombre}"/> 
+                        </h:column>
+
+                        <h:column>
+                            <h:outputText value="#{to.tipo.nombre}"/> 
+                        </h:column>
+                        <h:column>
+                            <h:outputText value="#{to.descripcion}"/>
+                        </h:column>
+                        <h:column>
+                            <img src="data:image/png;base64,#{ortesisBean.displayImagen(to.foto)}" width="150" height="130"/>
+                        </h:column>
+                        <h:column>
+                            <h:outputText value="#{to.precio}"/>
+                        </h:column>
+                        <!--CRUD-->
+                    </h:dataTable>
+                </div>
+            </h:form>
+
+            <h2>PROTESIS</h2>
+            <h:form class="w3-margin-top">
+                <h:dataTable styleClass="w3-table w3-hoverable w3-white" value="#{protesisBean.listaProtesis}"
+                             var="pr" rendered="#{protesisBean.listaProtesis.size()>0}">
+
+                    <h:column>
+                        <h:outputText value="#{pr.nombre}"/> 
+                    </h:column>
+
+                    <h:column>
+                        <h:outputText value="#{pr.tipo.nombre}"/> 
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{pr.descripcion}"/>
+                    </h:column>
+                    <h:column>
+                        <img src="data:image/png;base64,#{protesisBean.displayImagen(pr.foto)}" width="150" height="130"/>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="#{pr.precio}"/>
+                    </h:column>
+                    <!--CRUD-->
+
+
+                </h:dataTable>
+            </h:form>
+
+            <!-- Contact -->
+            <div class="w3-container" id="contacto">
+                <h2>CONTACTA CON NOSOTROS</h2>
+                <i class="fa fa-map-marker" style="width:30px"></i> Carrer de l'Enginyer José Sirera, 2 Avenida Cr Tomás Sala con Calle Soria. 46017 València Valencia<br/>
+                <i class="fa fa-phone" style="width:30px"></i> Telefono 960 05 57 68<br/>
+                <i class="fa fa-envelope" style="width:30px"> </i> Email: ortopediavelasquez@gmail.com<br/>
+                <form action="/action_page.php" target="_blank">
+                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Nombre" name="Name"/></p>
+                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Email" name="Email"/></p>
+                    <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="Telefono" name="Email"/></p>
+                    <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Comentario" name="Message"/></p>
+                    <p><button class="w3-button w3-black w3-padding-large" type="submit">ENVIAR AHORA</button></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="w3-container w3-center w3-opacity w3-margin-bottom">
+            <h5>Encuentranos</h5>
+            <div class="w3-xlarge w3-padding-16">
+                <i class="fa fa-facebook-official w3-hover-opacity"></i>
+                <i class="fa fa-instagram w3-hover-opacity"></i>
+                <i class="fa fa-snapchat w3-hover-opacity"></i>
+                <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+                <i class="fa fa-twitter w3-hover-opacity"></i>
+                <i class="fa fa-linkedin w3-hover-opacity"></i>
+            </div>
+            <p>Ortopedia <a href="#" target="_blank" class="w3-hover-text-green">Velásquez</a></p>
+        </footer>
+
+
+        <c:if test="#{not empty flash.exito}">
+            alertify.success('#(flash.exito)');
+        </c:if>
+
+    </h:body>
+</html>
+
